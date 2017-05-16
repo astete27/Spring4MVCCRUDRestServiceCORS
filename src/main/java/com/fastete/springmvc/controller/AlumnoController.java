@@ -27,7 +27,7 @@ public class AlumnoController {
         List<Alumno> alumnos = alumnoService.retrieveAll();
         System.out.println(new Date());
         if(alumnos.isEmpty()){
-            return new ResponseEntity<List<Alumno>>(HttpStatus.NO_CONTENT);//otra opción sería HttpStatus.NOT_FOUND
+            return new ResponseEntity<List<Alumno>>(HttpStatus.NO_CONTENT);//otra opcion seria HttpStatus.NOT_FOUND
         }
         
         return new ResponseEntity<List<Alumno>>(alumnos, HttpStatus.OK);
