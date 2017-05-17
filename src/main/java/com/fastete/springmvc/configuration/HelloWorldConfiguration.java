@@ -5,6 +5,7 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -35,10 +36,26 @@ public class HelloWorldConfiguration {
 	@Autowired
 	private Environment env;
 
+	//	@Bean
+//	public DataSource dataSource() {
+//		JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
+//		DataSource dataSource = dsLookup.getDataSource(env.getProperty("jndiName"));
+//        return dataSource;
+//	}
+	
 	@Bean
 	public DataSource dataSource() {
-		JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
-		DataSource dataSource = dsLookup.getDataSource(env.getProperty("jndiName"));
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
+        dataSource.setUrl(env.getProperty("jdbc.url"));
+        dataSource.setUsername(env.getProperty("jdbc.user"));
+        dataSource.setPassword(env.getProperty("jdbc.pass"));
+        dataSource.setTestOnBorrow(true);
+        dataSource.setTestOnReturn(true);
+        dataSource.setTestWhileIdle(true);
+        dataSource.setTimeBetweenEvictionRunsMillis(1800000);
+        dataSource.setNumTestsPerEvictionRun(3);
+        dataSource.setMinEvictableIdleTimeMillis(1800000);
         return dataSource;
 	}
 	
